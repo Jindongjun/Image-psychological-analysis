@@ -1,8 +1,4 @@
 import streamlit as st
-import numpy as np
-import tensorflow as tf
-from tensorflow.keras.preprocessing.image import img_to_array
-from tensorflow.keras.models import load_model
 
 # 부위별 모델 불러오기
 head_model = load_model('./head_model.h5')
