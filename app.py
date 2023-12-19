@@ -1,37 +1,21 @@
 import streamlit as st
-import cv2
-import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
 import tensorflow as tf
 from tensorflow.keras.preprocessing.image import img_to_array
-from tensorflow.keras import layers, models
+from tensorflow.keras.models import load_model
 
-# 이미지 크기 및 경로 설정
+# 이미지 크기 설정
 img_size = (640, 640)
 
-# 각 부위별로 모델 정의
-def create_model():
-    model = models.Sequential()
-    model.add(layers.Conv2D(32, (3, 3), activation='relu', input_shape=(img_size[0], img_size[1], 3)))
-    model.add(layers.MaxPooling2D((2, 2)))
-    model.add(layers.Conv2D(64, (3, 3), activation='relu'))
-    model.add(layers.MaxPooling2D((2, 2)))
-    model.add(layers.Conv2D(128, (3, 3), activation='relu'))
-    model.add(layers.MaxPooling2D((2, 2)))
-    model.add(layers.Flatten())
-    model.add(layers.Dense(128, activation='relu'))
-    model.add(layers.Dense(1, activation='sigmoid'))  
+# 부위별 모델 경로 설정
+head_model_path = 'head_model.h5'
+eyes_model_path = 'eyes_model.h5'
+ear_model_path = 'ear_model.h5'
 
-    model.compile(optimizer='adam',
-                  loss='binary_crossentropy', 
-                  metrics=['accuracy'])
-    return model
-
-# 부위별 모델 생성
-head_model = create_model()
-eyes_model = create_model()
-ear_model = create_model()
+# 부위별 모델 불러오기
+head_model = load_model(head_model_path)
+eyes_model = load_model(eyes_model_path)
+ear_model = load_model(ear_model_path)
 
 st.title("아동 그림 심리 분석")
 
